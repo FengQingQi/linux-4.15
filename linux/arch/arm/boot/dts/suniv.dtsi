@@ -229,19 +229,72 @@
 				function = "lcd";
 			};
 
-			uart0_pins_a: uart-pins-pe {
+			uart0_pe_pins: uart0-pe-pins {
 				pins = "PE0", "PE1";
 				function = "uart0";
+				bias-pull-up;
 			};
 
-			uart2_pins_a: uart2-pins-pe {
+			uart0_pf_pins: uart0-pf-pins {
+				pins = "PF2", "PF4";
+				function = "uart0";
+				bias-pull-up;
+			};
+
+			uart1_pa_pins: uart1-pins {
+				pins = "PA2", "PA3";
+				function = "uart1";
+				bias-pull-up;
+			};
+
+			uart1_pa_rcts_pins: uart1-rcts-pins {
+				pins = "PA0", "PA1";
+				function = "uart1";
+				bias-pull-up;
+			};
+
+			uart2_pe_pins: uart2-pe-pins {
 				pins = "PE7", "PE8";
 				function = "uart2";
+				bias-pull-up;
 			};
-
+			
+	
 			mmc0_pins: mmc0-pins {
 				pins = "PF0", "PF1", "PF2", "PF3", "PF4", "PF5";
 				function = "mmc0";
+			};
+
+			i2c0_pe_pins: i2c0-pe-pins {
+				pins = "PE11", "PE12";
+				function = "i2c0";
+			};
+
+			i2c0_pd_pins: i2c0-pd-pins {
+				pins = "PD0", "PD12";
+				function = "i2c0";
+			};
+
+			i2c1_pd_pins: i2c1-pd-pins {
+				pins = "PD5", "PD6";
+				function = "i2c1";
+			};
+
+			csi0_pins: csi0-pins {
+				pins = "PE0", "PE1", "PE2", "PE3", "PE4", "PE5",
+					"PE6","PE7", "PE8", "PE9", "PE10";
+				function = "csi";
+			};
+			
+			clk_out_pins: clk-out-pins {
+				pins = "PE11";
+				function = "clk0";
+				bias-pull-up;
+			};
+
+			rtp_pins: rtp-pins {
+				pins = "PA0", "PA1", "PA2", "PA3";
+				function = "rtp";
 			};
 		};
 
@@ -255,6 +308,16 @@
 		wdt: watchdog@1c20ca0 {
 			compatible = "allwinner,sun6i-a31-wdt";
 			reg = <0x01c20ca0 0x20>;
+		};
+
+		rtp: rtp@1c24800 {
+			compatible = "allwinner,sun4i-a10-ts";
+			reg = <0x01c24800 0x100>;
+			interrupts = <20>;
+			#thermal-sensor-cells = <0>;
+			pinctrl-0 = <&rtp_pins>;
+			pinctrl-names = "default";
+			status = "disabled";
 		};
 
 		uart0: serial@1c25000 {
@@ -287,6 +350,52 @@
 			reg-io-width = <4>;
 			clocks = <&ccu CLK_BUS_UART2>;
 			resets = <&ccu RST_BUS_UART2>;
+			status = "disabled";
+		};
+
+		: i2c@1c27000 {
+			compatible = "allwinner,sun6i-a31-i2c";
+			reg = <0x01c27000 0x400>;
+			interrupts = <7>;
+			clocks = <&ccu CLK_BUS_I2C0>;
+			resets = <&ccu RST_BUS_I2C0>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&i2c0_pd_pins>;
+			status = "disabled";
+			#address-cells = <1>;
+			#size-cells = <0>;
+		};
+
+		i2c1: i2c@1c27400 {
+			compatible = "allwinner,sun6i-a31-i2c";
+			reg = <0x01c27400 0x400>;
+			interrupts = <8>;
+			clocks = <&ccu CLK_BUS_I2C1>;
+			resets = <&ccu RST_BUS_I2C1>;
+			status = "disabled";
+			#address-cells = <1>;
+			#size-cells = <0>;
+		};
+
+		i2c2: i2c@1c27800 {
+			compatible = "allwinner,sun6i-a31-i2c";
+			reg = <0x01c27800 0x400>;
+			interrupts = <9>;
+			clocks = <&ccu CLK_BUS_I2C2>;
+			resets = <&ccu RST_BUS_I2C2>;
+			status = "disabled";
+			#address-cells = <1>;
+			#size-cells = <0>;
+		};
+
+		csi0: csi@1cb0000 {
+			compatible = "allwinner,suniv-f1c100s-csi0",
+						"allwinner,sun7i-a20-csi0";
+			reg = <0x01cb0000 0x1000>;
+			interrupts = <32>;
+			clocks = <&ccu CLK_BUS_CSI>, <&ccu CLK_CSI>, <&ccu CLK_DRAM_CSI>;
+			clock-names = "bus", "isp", "ram";
+			resets = <&ccu RST_BUS_CSI>;
 			status = "disabled";
 		};
 
