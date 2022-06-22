@@ -1,2 +1,2 @@
 # licheepi_nano_kernel
-荔枝派nano内核
+support: F1C100s and F1C200s
