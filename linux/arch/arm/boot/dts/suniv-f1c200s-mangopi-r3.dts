@@ -25,7 +25,8 @@
 	};
 
 	panel: panel {
-		compatible = "qiaodian,qd43003c0-40", "simple-panel";
+		//compatible = "qiaodian,qd43003c0-40", "simple-panel";
+		compatible = "urt,umsh-8596md-t", "simple-panel";
 		#address-cells = <1>;
 		#size-cells = <0>;
 		enable-gpios = <&pio 4 6 GPIO_ACTIVE_HIGH>;
@@ -146,7 +147,7 @@
 	pinctrl-0 = <&uart2_pe_pins>;
 	status = "okay";
 };
-
+/*
 &i2c0 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&i2c0_pd_pins>;
@@ -161,6 +162,25 @@
 		pendown-gpio = <&pio 4 12 GPIO_ACTIVE_LOW>;
 		ti,x-plate-ohms = <660>;
 		wakeup-source;
+	};
+};
+*/
+&i2c0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c0_pd_pins>;
+	status = "okay";
+	
+	ctp@38 {
+			compatible = "focaltech,fts";
+			reg = <0x38>;
+			interrupt-parent = <&pio>;
+			interrupts = <4 12 IRQ_TYPE_LEVEL_LOW>;
+			focaltech,reset-gpio = <&pio 0 0 GPIO_ACTIVE_HIGH>;
+			focaltech,irq-gpio = <&pio 4 12 IRQ_TYPE_LEVEL_LOW>;
+			focaltech,max-touch-number = <2>;
+			focaltech,display-coords = <0 0 800 480>;
+			focaltech,reg_vdd = <3300000>;
+			focaltech,reg_avdd = <3300000>;
 	};
 };
 
