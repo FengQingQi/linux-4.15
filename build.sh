@@ -1,7 +1,7 @@
 #/bin/bash
 KERNEL_DIR="linux"
 
-#说明：当前目录为 /home/f1c200s/u-boot-2020.07/u-boot-2020.07
+#说明：当前目录为 /home/f1c100s/linux-4.15 or /home/f1c200s/linux-4.15
 DIR=$(cd $(dirname $0) && pwd )
 
 printf_info(){
